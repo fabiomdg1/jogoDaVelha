@@ -2,6 +2,7 @@ let x = document.querySelector(".x");
 let o = document.querySelector(".o");
 let boxes = document.querySelectorAll(".box");
 let buttons = document.querySelectorAll("#buttons-container button");
+let messageContainer = document.querySelector("#message");
 let messageText = document.querySelector("#message p");
 let secondPlayer;
 
@@ -68,8 +69,10 @@ function verificaGanhador(){
 
         if((campo1 == "x") && (campo2 == "x") && (campo3 == "x")){
             console.log("X Venceu 1");
+            declaraVencedor("x");
         } else if ((campo1 == "o") && (campo2 == "o") && (campo3 == "o")) {
             console.log("O venceu 1");
+            declaraVencedor("o");
         }
     }
 
@@ -82,8 +85,10 @@ function verificaGanhador(){
     
         if((campo4 == "x") && (campo5 == "x") && (campo6 == "x")){
             console.log("X Venceu 2");
+            declaraVencedor("x");
         } else if ((campo4 == "o") && (campo5 == "o") && (campo6 == "o")){
             console.log("O venceu 2");
+            declaraVencedor("o");
         }
     }
 
@@ -96,8 +101,10 @@ function verificaGanhador(){
         
             if((campo7 == "x") && (campo8 == "x") && (campo9 == "x")){
                 console.log("X Venceu 3");
+                declaraVencedor("x");
             } else if((campo7 == "o") && (campo8 == "o") && (campo9 == "o")) {
                 console.log("O venceu 3");
+                declaraVencedor("o");
             }
         }
 
@@ -110,8 +117,10 @@ function verificaGanhador(){
 
             if((campo1 == "x") && (campo4 == "x") && (campo7 == "x")){
                 console.log("X Venceu 4");
+                declaraVencedor("x");
             } else if ((campo1 == "o") && (campo4 == "o") && (campo7 == "o")) {
                 console.log("O venceu 4");
+                declaraVencedor("o");
             }
         }
 
@@ -124,8 +133,10 @@ function verificaGanhador(){
         
             if((campo2 == "x") && (campo5 == "x") && (campo8 == "x")){
                 console.log("X Venceu 5");
+                declaraVencedor("x");
             } else if ((campo2 == "o") && (campo5 == "o") && (campo8 == "o")) {
                 console.log("O venceu 5");
+                declaraVencedor("o");
             }
         }
 
@@ -138,8 +149,10 @@ function verificaGanhador(){
                 
             if((campo3 == "x") && (campo6 == "x") && (campo9 == "x")){
                 console.log("X Venceu 6");
+                declaraVencedor("x");
             } else if ((campo3 == "o") && (campo6 == "o") && (campo9 == "o")) {
                 console.log("O venceu 6");
+                declaraVencedor("o");
             }
         }
 
@@ -152,8 +165,10 @@ function verificaGanhador(){
                     
             if((campo1 == "x") && (campo5 == "x") && (campo9 == "x")){
                 console.log("X Venceu 7");
+                declaraVencedor("x");
             } else if ((campo1 == "o") && (campo5 == "o") && (campo9 == "o")) {
                 console.log("O venceu 7");
+                declaraVencedor("o");
             }
         }
 
@@ -166,8 +181,10 @@ function verificaGanhador(){
                 
             if((campo3 == "x") && (campo5 == "x") && (campo7 == "x")){
                 console.log("X Venceu 8");
+                declaraVencedor("x");
             } else if ((campo3 == "o") && (campo5 == "o") && (campo7 == "o")) {
                 console.log("O venceu 8");
+                declaraVencedor("o");
             }
         }
 
@@ -181,7 +198,9 @@ function verificaGanhador(){
 
         if(counter == 9){
             console.log("Deu velha");
-        }
+            declaraVencedor("Deu velha");
+        }            
+    }
 
         // Limpa o jogo, declara o vencedor e atualiza o placar
         function declaraVencedor(vencedor){
@@ -190,18 +209,84 @@ function verificaGanhador(){
 
             if(vencedor == "x"){
                 scoreboardX.textContent = parseInt(scoreboardX.textContent) + 1;
-                msg = "O jogador 1 venceu !";
-            } else if (vencedor == y){
+                msg = "O jogador 1 venceu !";                
+            } else if (vencedor == "o"){
                 scoreboardY.textContent = parseInt(scoreboardY.textContent) + 1;
                 msg = "O jogador 2 venceu !"
             } else{
                 msg = "Deu velha !";
             }
+
+            // Exibe mensagem
+            messageText.innerHTML = msg;
+            messageContainer.classList.remove("hide");
+
+            // Esconde mensagem
+            setTimeout(function() {
+                messageContainer.classList.add("hide");
+            }, 3000);
+
+            // zera as jogadas
+            player1 = 0;
+            player2 = 0;
+
+            // remove os x e o
+            let boxesToRemove = document.querySelectorAll(".box div");
+  
+            for(let i = 0; i < boxesToRemove.length; i++) {
+            boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+            }
         }
+
+
+// evento para ver se é contra IA ou segundo player
+for(let i = 0; i < buttons.length; i++) {
+
+    buttons[i].addEventListener("click", function() {
+  
+      secondPlayer = this.getAttribute('id');
+  
+      for(j = 0; j < buttons.length; j++) {
+        buttons[j].style.display = 'none';
+      }
+  
+      setTimeout(function() {
+        let container = document.querySelector("#container");
+        container.classList.remove("hide");
+      }, 500);
+  
+    });
+  
+  }
+  
+  // jogada IA 
+  function computerPlay() {
+  
+    let cloneO = o.cloneNode(true);
+    counter = 0;
+    filled = 0;
             
-}
-
-
-
-
+    for(let i = 0; i < boxes.length; i++) {
+  
+      let randomNumber = Math.floor(Math.random() * 5);
+  
+      // só se não tiver marcado anteriormente
+      if(boxes[i].childNodes[0] == undefined) {  
+        if(randomNumber <= 1) {
+          boxes[i].appendChild(cloneO);
+          counter++;
+          break;
+        }
+      // checar quantas estão preenchidas        
+      } else {
+        filled++;
+      }
+  
+    }
+  
+    if(counter == 0 && filled < 9) {
+      computerPlay();
+    }
+  
+  }
 
