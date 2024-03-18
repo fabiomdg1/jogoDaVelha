@@ -27,6 +27,12 @@ for(let i=0; i < boxes.length; i++){
             // Computar jogada
             if(player1 == player2){
                 player1++;
+
+                if(secondPlayer == "ai-player"){
+                    // Função para executar a jogada
+                    computerPlay();
+                    player2++;                
+                }
             }else{
                 player2++;
             }
@@ -38,7 +44,26 @@ for(let i=0; i < boxes.length; i++){
     
 }
 
-// Verifica quem j
+
+// Evento para saber se é dois jogadores ou IA
+for(let i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener("click", function(){
+
+        secondPlayer = this.getAttribute("id");
+
+        for(let j = 0; j < buttons.length; j++){
+            buttons[j].style.display = "none";
+        }
+
+        setTimeout(function(){
+            let container = document.querySelector("#container");
+            container.classList.remove("hide");
+        })
+
+    })
+}
+
+// Verifica quem joga
 function verificarJogada(player1, player2){
     if(player1 == player2){
         elemento = x;
@@ -48,7 +73,7 @@ function verificarJogada(player1, player2){
     return elemento;
 }
 
-//Verifica quem joga
+// Verifica quem joga
 function verificaGanhador(){
     let b1 = document.getElementById("block-1");
     let b2 = document.getElementById("block-2");
@@ -239,15 +264,15 @@ function verificaGanhador(){
         }
 
 
-// evento para ver se é contra IA ou segundo player
+// Evento para ver se é contra IA ou segundo player
 for(let i = 0; i < buttons.length; i++) {
 
     buttons[i].addEventListener("click", function() {
   
-      secondPlayer = this.getAttribute('id');
+      secondPlayer = this.getAttribute("id");
   
       for(j = 0; j < buttons.length; j++) {
-        buttons[j].style.display = 'none';
+        buttons[j].style.display = "none";
       }
   
       setTimeout(function() {
