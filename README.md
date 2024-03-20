@@ -20,6 +20,5 @@ Ou jogue online [clicando aqui](https://jogo-da-velha-55ebc.web.app/).
 
 
 ### Contribuições
-
-Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests com melhorias, correções de bugs ou novos recursos.
+Contribuições são bem-vindas!
 
